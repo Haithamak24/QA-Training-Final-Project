@@ -48,13 +48,21 @@ Training Summary
 Throughout my training at Ahl Logics, I gained valuable knowledge in various QA and development topics, including:
 
 Getting Started with Git & GitHub
+
 Database Fundamentals
+
 Testing Fundamentals
+
 Testing Throughout the Software Life Cycle
+
 Python Basics
+
 Manual Testing (UI Testing)
+
 Selenium UI Testing
+
 API Testing
+
 Automation Testing with Python
 
 Acknowledgments
