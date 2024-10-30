@@ -45,6 +45,7 @@ Manually enter an invalid product ID in the URL (e.g., https://www.saucedemo.com
 Verify the system's response, such as an error message or a 404 page.
 
 Training Summary
+
 Throughout my training at Ahl Logics, I gained valuable knowledge in various QA and development topics, including:
 
 Getting Started with Git & GitHub
