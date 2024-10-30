@@ -1,6 +1,7 @@
 # QA-Training-Final-Project
 
 Final Project in QA Training with Ahl Logics 
+
 This project is the culmination of my QA training at Ahl Logics, where I developed automation scripts for the SauceDemo website. The project demonstrates the automation of several key test cases using Selenium and Python.
 
 Automated Test Cases
