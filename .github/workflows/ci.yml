@@ -33,7 +33,7 @@ jobs:
           allure generate allure-results -o allure-report --clean  # Generate the report
 
       - name: Upload Allure report as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: allure-report  # Path to the generated report
