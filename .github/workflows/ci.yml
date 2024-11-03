@@ -1,0 +1,39 @@
+name: Run Tests and Generate Allure Report
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ' 3.12.7'  # Set the Python version
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install allure-pytest  # Ensure allure-pytest is installed
+
+      - name: Run tests and generate Allure results
+        run: |
+          pytest --alluredir=allure-results  # Run tests with Allure results output
+
+      - name: Generate Allure report
+        run: |
+          allure generate allure-results -o allure-report --clean  # Generate the report
+
+      - name: Upload Allure report as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: allure-report
+          path: allure-report  # Path to the generated report
