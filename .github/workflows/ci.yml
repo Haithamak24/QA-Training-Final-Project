@@ -5,35 +5,43 @@ on:
     branches:
       - main
   pull_request:
+    types: [opened, synchronize]  # Optional: trigger on pull request events
 
 jobs:
+  version-updater:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GitHub Actions Version Updater
+        uses: saadmk11/github-actions-version-updater@v0.8.1
+
   test:
     runs-on: ubuntu-latest
+    needs: version-updater  # Ensure this runs after the version updater
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Updated to v3
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v3  # Updated to v3
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.12.7'  # Set the Python version
+          python-version: '3.12.7'
 
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install allure-pytest  # Ensure allure-pytest is installed
+          pip install allure-pytest
 
       - name: Run tests and generate Allure results
         run: |
-          pytest --alluredir=allure-results  # Run tests with Allure results output
+          pytest --alluredir=allure-results
 
       - name: Generate Allure report
         run: |
-          allure generate allure-results -o allure-report --clean  # Generate the report
+          allure generate allure-results -o allure-report --clean
 
       - name: Upload Allure report as artifact
-        uses: actions/upload-artifact@v3  # Ensure using v3
+        uses: actions/upload-artifact@v3
         with:
           name: allure-report
-          path: allure-report  # Path to the generated report
+          path: allure-report
