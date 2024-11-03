@@ -12,12 +12,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Updated to v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3  # Updated to v3
         with:
-          python-version: ' 3.12.7'  # Set the Python version
+          python-version: '3.12.7'  # Set the Python version
 
       - name: Install dependencies
         run: |
@@ -33,7 +33,7 @@ jobs:
           allure generate allure-results -o allure-report --clean  # Generate the report
 
       - name: Upload Allure report as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3  # Ensure using v3
         with:
           name: allure-report
           path: allure-report  # Path to the generated report
