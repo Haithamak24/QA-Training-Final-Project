@@ -12,17 +12,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v3  
+        uses: actions/setup-python@v3
         with:
           python-version: '3.12.7'
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-          pip install allure-pytest
+          pip install -r requirements.txt  # This will install selenium, pytest, and allure-pytest
 
       - name: Run tests and generate Allure results
         run: |
