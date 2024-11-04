@@ -11,29 +11,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3  # Updated to v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v3  # Updated to v3
-      with:
-        python-version: '3.12.7'  # Specify Python version 3.12.7
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.12.7'  
 
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-        pip install allure-pytest  # Ensure allure-pytest is installed
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install allure-pytest
 
-    - name: Run tests and generate Allure results
-      run: |
-        pytest --alluredir=allure-results  # Run tests with Allure results output
+      - name: Run tests and generate Allure results
+        run: |
+          pytest --alluredir=allure-results  # Run tests with Allure results output
 
-    - name: Generate Allure report
-      run: |
-        allure generate allure-results -o allure-report --clean  # Generate the report
+      - name: Generate Allure report
+        run: |
+          allure generate allure-results -o allure-report --clean
 
-    - name: Upload Allure report as artifact
-      uses: actions/upload-artifact@v3  # Updated to v3
-      with:
-        name: allure-report
-        path: allure-report
+      - name: Upload Allure report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
+
+      - name: Deploy Allure report to GitHub Pages
+        run: |
+          git config --global user.name 'Haithamak24' 
+          git config --global user.email '231066@ppu.edu.ps'  
+          git checkout gh-pages || git checkout --orphan gh-pages
+          rm -rf *
+          cp -r allure-report/* .
+          git add .
+          git commit -m "Deploy Allure report" || echo "No changes to commit"
+          git push origin gh-pages
