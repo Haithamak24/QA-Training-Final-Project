@@ -1,8 +1,10 @@
 import pytest
-import time 
+from selenium.webdriver.common.by import By
 from utilities.driver import get_driver
 from pages.login_page import LoginPage
 from pages.product_page import ProductPage
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class TestViewProduct:
     @pytest.fixture
@@ -11,14 +13,24 @@ class TestViewProduct:
         self.driver.get("https://www.saucedemo.com/")
         self.login_page = LoginPage(self.driver)
         self.login_page.login("standard_user", "secret_sauce")
-        time.sleep(2) 
-        yield
+        
+        yield self.driver 
         self.driver.quit()
 
     def test_view_product_details(self, setup):
-        time.sleep(2) 
-        product_page = ProductPage(self.driver)
+        product_page = ProductPage(setup)
+
+        # Click on the product
         product_page.click_product("Sauce Labs Backpack")
 
-        assert "Sauce Labs Backpack" in self.driver.page_source, "Product name is not displayed on the product page."
+        print(f"Current URL after clicking product: {setup.current_url}")
+        
+        try:
+            WebDriverWait(setup, 20).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR, "div.inventory_details_name"))
+            )
+        except Exception as e:
+            print(f"Error waiting for product details: {e}")
+            print(setup.page_source)  
 
+        assert "Sauce Labs Backpack" in setup.page_source, "Product name is not displayed on the product page."

@@ -3,14 +3,21 @@ from selenium.webdriver.common.by import By
 from utilities.driver import get_driver
 from pages.login_page import LoginPage
 from pages.product_page import ProductPage
+from selenium.webdriver.chrome.options import Options
 
 class TestSorting:
     @pytest.fixture(scope="function")
     def setup(self):
-        self.driver = get_driver()
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        
+        self.driver = get_driver(options=chrome_options)
         self.driver.get("https://www.saucedemo.com/")
         self.login_page = LoginPage(self.driver)
         self.login_page.login("standard_user", "secret_sauce")
+        
         yield ProductPage(self.driver)
         self.driver.quit()
 
